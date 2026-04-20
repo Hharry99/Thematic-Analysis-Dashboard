@@ -1,76 +1,80 @@
 import streamlit as st
-# ------------------------------
-chart1, chart2 = st.columns(2)
-
-with chart1:
-    st.subheader("Theme Frequency")
-
-    sorted_data = data.sort_values(by="Mentions", ascending=True)
-
-    fig_bar = px.bar(
-        sorted_data,
-        x="Mentions",
-        y="Theme",
-        orientation="h",
-        text="Mentions",
-        color="Theme"
-    )
-
-    fig_bar.update_layout(
-        showlegend=False,
-        height=500,
-        xaxis_title="Number of Respondents",
-        yaxis_title=""
-    )
-
-    fig_bar.update_traces(textposition="outside")
-
-    st.plotly_chart(fig_bar, use_container_width=True)
-
-with chart2:
-    st.subheader("Theme Percentage Share")
-
-    fig_pie = px.pie(
-        data,
-        names="Theme",
-        values="Mentions",
-        hole=0.35
-    )
-
-    fig_pie.update_traces(textinfo="percent+label")
-    fig_pie.update_layout(height=500)
-
-    st.plotly_chart(fig_pie, use_container_width=True)
-
-st.markdown("---")
+import pandas as pd
+import plotly.express as px
 
 # ------------------------------
-# Theme details
+# Page configuration
 # ------------------------------
-st.subheader("Theme Descriptions")
-
-for _, row in data.iterrows():
-    st.markdown(
-        f"""
-        <div class="theme-box">
-            <h4>{row['Theme']}</h4>
-            <p><strong>Mentions:</strong> {row['Mentions']} respondents ({row['Percentage']}%)</p>
-            <p>{row['Description']}</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+st.set_page_config(
+    page_title="Thematic Analysis Dashboard",
+    page_icon="📊",
+    layout="wide"
+)
 
 # ------------------------------
-# Optional downloadable table
+# Data
 # ------------------------------
-st.subheader("Download Theme Summary")
+data = pd.DataFrame({
+    "Theme": [
+        "AI, Analytics & Forecasting",
+        "Improved Data Collection & Record Keeping",
+        "Technical Capacity & Training",
+        "Centralized & Integrated Data Systems",
+        "Budget & Resource Support",
+        "Policy, Institutional Reform & Coordination"
+    ],
+    "Mentions": [31, 23, 22, 21, 16, 14],
+    "Description": [
+        "Need for AI, machine learning, HDM-4 and predictive models to improve planning and deterioration forecasting.",
+        "Need for regular pavement surveys, complete maintenance histories and better continuity of records.",
+        "Need for staff training in HDM-4, AI, data analytics and pavement management tools.",
+        "Need for a shared national road asset database linking condition, maintenance and planning data.",
+        "Need for more budget support for data collection, research and technology.",
+        "Need for stronger policy frameworks, institutional coordination and reduced political influence."
+    ]
+})
 
-csv = data.to_csv(index=False).encode("utf-8")
+data["Percentage"] = round((data["Mentions"] / 56) * 100, 1)
 
-st.download_button(
-    label="Download CSV",
-    data=csv,
-    file_name="thematic_analysis_summary.csv",
-    mime="text/csv"
+# ------------------------------
+# Custom styling
+# ------------------------------
+st.markdown(
+    """
+    <style>
+    .main-title {
+        font-size: 40px;
+        font-weight: bold;
+        color: #1f2937;
+        margin-bottom: 0;
+    }
+    .sub-title {
+        font-size: 18px;
+        color: #6b7280;
+        margin-top: 0;
+    }
+    .metric-card {
+        background-color: #f3f4f6;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        border: 1px solid #e5e7eb;
+    }
+    .theme-box {
+        background-color: #f9fafb;
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 5px solid #2563eb;
+        margin-bottom: 15px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# ------------------------------
+# Title
+# ------------------------------
+st.markdown('<p class="main-title">Thematic Analysis Dashboard</p>', unsafe_allow_html=True)
+st.markdown(
 )
