@@ -23,10 +23,19 @@ data = pd.DataFrame({
         "Budget & Resource Support",
         "Policy, Institutional Reform & Coordination"
     ],
-    "Mentions": [31, 23, 22, 21, 16, 14]
+    "Mentions": [31, 23, 22, 21, 16, 14],
+    "Description": [
+        "Respondents emphasized the need for AI, machine learning, HDM-4 and predictive models to improve maintenance planning and deterioration forecasting.",
+        "Respondents highlighted the need for regular pavement surveys, complete maintenance histories and better continuity of road condition records.",
+        "Many respondents called for more training in HDM-4, AI, data analytics and pavement management tools for technical staff.",
+        "Respondents recommended a shared national road asset database linking condition, maintenance and planning information.",
+        "Several comments stressed the importance of increased funding for data collection, research and technological improvements.",
+        "Responses suggested stronger policy frameworks, improved coordination across agencies and reduced political influence in maintenance prioritization."
+    ]
 })
 
-data["Percentage"] = round((data["Mentions"] / 56) * 100, 1)
+TOTAL_RESPONSES = 56
+data["Percentage"] = round((data["Mentions"] / TOTAL_RESPONSES) * 100, 1)
 
 # ---------------------------------------------------
 # STYLING
@@ -46,7 +55,7 @@ html, body, [class*="css"] {
     padding-bottom: 3rem;
 }
 
-/* Top Bar */
+/* Top navigation bar */
 .top-bar {
     background: #071633;
     height: 72px;
@@ -61,7 +70,7 @@ html, body, [class*="css"] {
     letter-spacing: 1px;
 }
 
-/* Research badge */
+/* Badge */
 .badge {
     display: inline-block;
     background: #fff7ed;
@@ -78,33 +87,34 @@ html, body, [class*="css"] {
 /* Main title */
 .main-title {
     text-align: center;
-    font-size: 68px;
+    font-size: 48px;
     font-weight: 900;
-    line-height: 1.05;
-    color: #020617;
-    margin-bottom: 1rem;
+    line-height: 1.1;
+    color: #0f172a;
+    margin-bottom: 0.8rem;
 }
 
 .subtitle {
     text-align: center;
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 700;
     color: #c2410c;
     margin-bottom: 0.3rem;
 }
 
 .subtitle-line {
-    width: 340px;
+    width: 300px;
     height: 3px;
     background: #fdba74;
-    margin: 0 auto 3rem auto;
+    margin: 0 auto 2.5rem auto;
     border-radius: 20px;
 }
 
+/* Intro card */
 .info-card {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    border-radius: 26px;
+    border-radius: 24px;
     padding: 2rem;
     box-shadow: 0 10px 30px rgba(15,23,42,0.06);
     margin-bottom: 2rem;
@@ -114,15 +124,16 @@ html, body, [class*="css"] {
     font-size: 34px;
     font-weight: 800;
     color: #0f172a;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .section-sub {
     font-size: 18px;
     color: #64748b;
-    margin-bottom: 2rem;
+    line-height: 1.7;
 }
 
+/* Metrics */
 .metric-card {
     background: linear-gradient(135deg, #0f172a, #1e293b);
     border-radius: 22px;
@@ -141,7 +152,7 @@ html, body, [class*="css"] {
 }
 
 .metric-value {
-    font-size: 56px;
+    font-size: 54px;
     font-weight: 800;
 }
 
@@ -149,19 +160,21 @@ html, body, [class*="css"] {
     color: #38bdf8;
 }
 
+/* Charts */
 .chart-box {
     background: white;
-    border-radius: 26px;
+    border-radius: 24px;
     padding: 1.5rem;
     box-shadow: 0 10px 30px rgba(15,23,42,0.08);
     border: 1px solid #e2e8f0;
+    margin-bottom: 1rem;
 }
 
 .chart-title {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 800;
     color: #0f172a;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
 }
 
 .chart-subtitle {
@@ -170,10 +183,11 @@ html, body, [class*="css"] {
     margin-bottom: 1.2rem;
 }
 
+/* Theme cards */
 .theme-card {
     background: white;
-    border-radius: 22px;
-    padding: 1.5rem 1.8rem;
+    border-radius: 20px;
+    padding: 1.5rem;
     border-left: 8px solid #ea580c;
     box-shadow: 0 10px 24px rgba(15,23,42,0.06);
     border: 1px solid #e2e8f0;
@@ -198,6 +212,36 @@ html, body, [class*="css"] {
     color: #475569;
     font-size: 16px;
     line-height: 1.7;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .main-title {
+        color: #f8fafc !important;
+    }
+
+    .subtitle {
+        color: #fb923c !important;
+    }
+
+    .section-header,
+    .chart-title,
+    .theme-title {
+        color: #f8fafc !important;
+    }
+
+    .section-sub,
+    .chart-subtitle,
+    .theme-text {
+        color: #cbd5e1 !important;
+    }
+
+    .info-card,
+    .chart-box,
+    .theme-card {
+        background: #111827 !important;
+        border-color: #334155 !important;
+    }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -235,7 +279,7 @@ st.markdown(
 st.markdown('<div class="subtitle-line"></div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------
-# INTRO CARD
+# INTRO
 # ---------------------------------------------------
 st.markdown(
     """
@@ -319,7 +363,6 @@ with c1:
     )
 
     fig_bar.update_traces(textposition="outside")
-
     st.plotly_chart(fig_bar, use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -339,10 +382,7 @@ with c2:
         color_discrete_sequence=colors
     )
 
-    fig_pie.update_traces(
-        textinfo="percent",
-        textfont_size=16
-    )
+    fig_pie.update_traces(textinfo="percent", textfont_size=16)
 
     fig_pie.update_layout(
         paper_bgcolor="white",
@@ -359,16 +399,14 @@ with c2:
     st.plotly_chart(fig_pie, use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
+# ---------------------------------------------------
+# THEME DESCRIPTIONS
+# ---------------------------------------------------
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-# ---------------------------------------------------
-# THEME DETAILS
-# ---------------------------------------------------
 st.markdown(
     """
-    <div class="section-header" style="margin-bottom:0.5rem;">
-        Theme Descriptions
-    </div>
+    <div class="section-header">Theme Descriptions</div>
     <div class="section-sub">
         Summary of the six thematic areas identified from the open-ended responses.
     </div>
@@ -376,34 +414,53 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-descriptions = {
-    "AI, Analytics & Forecasting":
-        "Respondents emphasized the need for AI, machine learning, HDM-4 and predictive models to improve maintenance planning and deterioration forecasting.",
-
-    "Improved Data Collection & Record Keeping":
-        "Respondents highlighted the need for regular pavement surveys, complete maintenance histories and better continuity of road condition records.",
-
-    "Technical Capacity & Training":
-        "Many respondents called for more training in HDM-4, AI, data analytics and pavement management tools for technical staff.",
-
-    "Centralized & Integrated Data Systems":
-        "Respondents recommended a shared national road asset database linking condition, maintenance and planning information.",
-
-    "Budget & Resource Support":
-        "Several comments stressed the importance of increased funding for data collection, research and technological improvements.",
-
-    "Policy, Institutional Reform & Coordination":
-        "Responses suggested stronger policy frameworks, improved coordination across agencies and reduced political influence in maintenance prioritization."
-}
-
 for _, row in data.iterrows():
     st.markdown(
         f"""
         <div class="theme-card">
             <div class="theme-title">{row['Theme']}</div>
             <div class="theme-meta">{row['Mentions']} respondents • {row['Percentage']}%</div>
-            <div class="theme-text">{descriptions[row['Theme']]}</div>
+            <div class="theme-text">{row['Description']}</div>
         </div>
         """,
         unsafe_allow_html=True
     )
+
+# ---------------------------------------------------
+# SUMMARY TABLE
+# ---------------------------------------------------
+st.markdown("<br><br>", unsafe_allow_html=True)
+
+st.markdown(
+    """
+    <div class="section-header">Theme Summary Table</div>
+    <div class="section-sub">
+        Summary of the number and percentage of respondents mentioning each thematic area.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+summary_table = data.rename(columns={
+    "Theme": "Thematic Area",
+    "Mentions": "Respondents",
+    "Percentage": "Percentage (%)"
+})
+
+st.dataframe(
+    summary_table[["Thematic Area", "Respondents", "Percentage (%)"]],
+    use_container_width=True,
+    hide_index=True
+)
+
+# ---------------------------------------------------
+# DOWNLOAD
+# ---------------------------------------------------
+csv = summary_table.to_csv(index=False).encode("utf-8")
+
+st.download_button(
+    label="📥 Download Theme Summary CSV",
+    data=csv,
+    file_name="thematic_analysis_summary.csv",
+    mime="text/csv"
+)
