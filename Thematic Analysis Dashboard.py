@@ -38,7 +38,7 @@ TOTAL_RESPONSES = 56
 data["Percentage"] = round((data["Mentions"] / TOTAL_RESPONSES) * 100, 1)
 
 # ---------------------------------------------------
-# CUSTOM CSS
+# CSS
 # ---------------------------------------------------
 st.markdown("""
 <style>
@@ -55,7 +55,7 @@ html, body, [class*="css"] {
     padding-bottom: 3rem;
 }
 
-/* Top Navigation */
+/* Top Bar */
 .top-bar {
     background: #071633;
     height: 72px;
@@ -70,7 +70,7 @@ html, body, [class*="css"] {
     letter-spacing: 1px;
 }
 
-/* Research Badge */
+/* Badge */
 .badge {
     display: inline-block;
     background: #fff7ed;
@@ -84,16 +84,17 @@ html, body, [class*="css"] {
     margin-bottom: 2rem;
 }
 
-/* Title Section */
+/* MAIN TITLE - force visible in light mode */
 .main-title {
     text-align: center;
-    font-size: 48px;
+    font-size: 50px;
     font-weight: 900;
     line-height: 1.1;
-    color: #111827 !important;
+    color: #0f172a !important;
     margin-bottom: 0.8rem;
 }
 
+/* Subtitle */
 .subtitle {
     text-align: center;
     font-size: 22px;
@@ -103,14 +104,29 @@ html, body, [class*="css"] {
 }
 
 .subtitle-line {
-    width: 300px;
+    width: 320px;
     height: 3px;
     background: #fdba74;
     margin: 0 auto 2.5rem auto;
     border-radius: 20px;
 }
 
-/* Intro and Section Headers */
+/* Section Headings */
+.section-header {
+    font-size: 34px;
+    font-weight: 800;
+    color: #0f172a !important;
+    margin-bottom: 0.5rem;
+}
+
+.section-sub {
+    font-size: 18px;
+    color: #334155 !important;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+/* Intro Card */
 .info-card {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
@@ -120,20 +136,7 @@ html, body, [class*="css"] {
     margin-bottom: 2rem;
 }
 
-.section-header {
-    font-size: 34px;
-    font-weight: 800;
-    color: #111827 !important;
-    margin-bottom: 0.5rem;
-}
-
-.section-sub {
-    font-size: 18px;
-    color: #334155 !important;
-    line-height: 1.7;
-}
-
-/* Metric Cards */
+/* Metrics */
 .metric-card {
     background: linear-gradient(135deg, #0f172a, #1e293b);
     border-radius: 22px;
@@ -160,7 +163,7 @@ html, body, [class*="css"] {
     color: #38bdf8;
 }
 
-/* Chart Boxes */
+/* Chart Containers */
 .chart-box {
     background: white;
     border-radius: 24px;
@@ -173,7 +176,7 @@ html, body, [class*="css"] {
 .chart-title {
     font-size: 30px;
     font-weight: 800;
-    color: #111827 !important;
+    color: #0f172a !important;
     margin-bottom: 0.3rem;
 }
 
@@ -195,7 +198,7 @@ html, body, [class*="css"] {
 }
 
 .theme-title {
-    color: #111827 !important;
+    color: #0f172a !important;
     font-size: 22px;
     font-weight: 800;
     margin-bottom: 0.4rem;
@@ -209,18 +212,18 @@ html, body, [class*="css"] {
 }
 
 .theme-text {
-    color: #475569 !important;
+    color: #334155 !important;
     font-size: 16px;
     line-height: 1.7;
 }
 
-/* Force light mode visibility */
+/* Force visibility in light mode */
 @media (prefers-color-scheme: light) {
     .main-title,
     .section-header,
     .chart-title,
     .theme-title {
-        color: #111827 !important;
+        color: #0f172a !important;
     }
 
     .section-sub,
@@ -285,7 +288,7 @@ st.markdown(
 st.markdown('<div class="subtitle-line"></div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------
-# INTRO
+# INTRO CARD
 # ---------------------------------------------------
 st.markdown("""
 <div class="info-card">
@@ -325,8 +328,6 @@ with m3:
     </div>
     """, unsafe_allow_html=True)
 
-st.markdown("<br>", unsafe_allow_html=True)
-
 # ---------------------------------------------------
 # CHARTS
 # ---------------------------------------------------
@@ -356,7 +357,7 @@ with c1:
         plot_bgcolor="rgba(0,0,0,0)",
         showlegend=False,
         height=500,
-        font=dict(size=14, color="#111827"),
+        font=dict(size=14, color="#0f172a"),
         margin=dict(l=10, r=10, t=10, b=10),
         xaxis=dict(title="Respondents", gridcolor="#e2e8f0"),
         yaxis=dict(title="")
@@ -388,7 +389,7 @@ with c2:
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         height=500,
-        font=dict(color="#111827"),
+        font=dict(color="#0f172a"),
         legend=dict(orientation="h", y=-0.15)
     )
 
