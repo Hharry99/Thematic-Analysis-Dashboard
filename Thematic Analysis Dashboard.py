@@ -1,4 +1,23 @@
 import streamlit as st
+# ------------------------------
+chart1, chart2 = st.columns(2)
+
+with chart1:
+    st.subheader("Theme Frequency")
+
+    sorted_data = data.sort_values(by="Mentions", ascending=True)
+
+    fig_bar = px.bar(
+        sorted_data,
+        x="Mentions",
+        y="Theme",
+        orientation="h",
+        text="Mentions",
+        color="Theme"
+    )
+
+    fig_bar.update_layout(
+        showlegend=False,
         height=500,
         xaxis_title="Number of Respondents",
         yaxis_title=""
@@ -18,10 +37,7 @@ with chart2:
         hole=0.35
     )
 
-    fig_pie.update_traces(
-        textinfo="percent+label"
-    )
-
+    fig_pie.update_traces(textinfo="percent+label")
     fig_pie.update_layout(height=500)
 
     st.plotly_chart(fig_pie, use_container_width=True)
