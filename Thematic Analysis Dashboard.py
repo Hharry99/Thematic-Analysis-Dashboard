@@ -38,7 +38,7 @@ TOTAL_RESPONSES = 56
 data["Percentage"] = round((data["Mentions"] / TOTAL_RESPONSES) * 100, 1)
 
 # ---------------------------------------------------
-# STYLING
+# CUSTOM CSS
 # ---------------------------------------------------
 st.markdown("""
 <style>
@@ -55,7 +55,7 @@ html, body, [class*="css"] {
     padding-bottom: 3rem;
 }
 
-/* Top Bar */
+/* Top Navigation */
 .top-bar {
     background: #071633;
     height: 72px;
@@ -70,7 +70,7 @@ html, body, [class*="css"] {
     letter-spacing: 1px;
 }
 
-/* Badge */
+/* Research Badge */
 .badge {
     display: inline-block;
     background: #fff7ed;
@@ -84,7 +84,7 @@ html, body, [class*="css"] {
     margin-bottom: 2rem;
 }
 
-/* Main Title */
+/* Title Section */
 .main-title {
     text-align: center;
     font-size: 48px;
@@ -110,7 +110,7 @@ html, body, [class*="css"] {
     border-radius: 20px;
 }
 
-/* Intro Card */
+/* Intro and Section Headers */
 .info-card {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
@@ -123,13 +123,13 @@ html, body, [class*="css"] {
 .section-header {
     font-size: 34px;
     font-weight: 800;
-    color: #0f172a !important;
+    color: #111827 !important;
     margin-bottom: 0.5rem;
 }
 
 .section-sub {
     font-size: 18px;
-    color: #475569 !important;
+    color: #334155 !important;
     line-height: 1.7;
 }
 
@@ -160,7 +160,7 @@ html, body, [class*="css"] {
     color: #38bdf8;
 }
 
-/* Chart Containers */
+/* Chart Boxes */
 .chart-box {
     background: white;
     border-radius: 24px;
@@ -173,12 +173,12 @@ html, body, [class*="css"] {
 .chart-title {
     font-size: 30px;
     font-weight: 800;
-    color: #0f172a !important;
+    color: #111827 !important;
     margin-bottom: 0.3rem;
 }
 
 .chart-subtitle {
-    color: #64748b !important;
+    color: #475569 !important;
     font-size: 16px;
     margin-bottom: 1.2rem;
 }
@@ -195,7 +195,7 @@ html, body, [class*="css"] {
 }
 
 .theme-title {
-    color: #0f172a !important;
+    color: #111827 !important;
     font-size: 22px;
     font-weight: 800;
     margin-bottom: 0.4rem;
@@ -214,20 +214,33 @@ html, body, [class*="css"] {
     line-height: 1.7;
 }
 
+/* Force light mode visibility */
+@media (prefers-color-scheme: light) {
+    .main-title,
+    .section-header,
+    .chart-title,
+    .theme-title {
+        color: #111827 !important;
+    }
+
+    .section-sub,
+    .chart-subtitle,
+    .theme-text {
+        color: #334155 !important;
+    }
+}
+
 /* Dark Mode */
 @media (prefers-color-scheme: dark) {
-    .main-title {
+    .main-title,
+    .section-header,
+    .chart-title,
+    .theme-title {
         color: #f8fafc !important;
     }
 
     .subtitle {
         color: #fb923c !important;
-    }
-
-    .section-header,
-    .chart-title,
-    .theme-title {
-        color: #f8fafc !important;
     }
 
     .section-sub,
@@ -256,16 +269,13 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.markdown(
-    """
-    <div class="main-title">
-        Pavement Performance<br>
-        Management under Data<br>
-        Constraints
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<div class="main-title">
+    Pavement Performance<br>
+    Management under Data<br>
+    Constraints
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown(
     '<div class="subtitle">Perspectives of Practitioners in Kenya</div>',
@@ -275,19 +285,16 @@ st.markdown(
 st.markdown('<div class="subtitle-line"></div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------
-# INTRO CARD
+# INTRO
 # ---------------------------------------------------
-st.markdown(
-    """
-    <div class="info-card">
-        <div class="section-header">Thematic Analysis of Open-Ended Responses</div>
-        <div class="section-sub">
-            Q27 and Q28 responses from 56 practitioners were coded and grouped into six major thematic areas relating to pavement performance management under data constraints.
-        </div>
+st.markdown("""
+<div class="info-card">
+    <div class="section-header">Thematic Analysis of Open-Ended Responses</div>
+    <div class="section-sub">
+        Q27 and Q28 responses from 56 practitioners were coded and grouped into six major thematic areas relating to pavement performance management under data constraints.
     </div>
-    """,
-    unsafe_allow_html=True
-)
+</div>
+""", unsafe_allow_html=True)
 
 # ---------------------------------------------------
 # METRICS
@@ -345,12 +352,12 @@ with c1:
     )
 
     fig_bar.update_layout(
-        paper_bgcolor="white",
-        plot_bgcolor="white",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
         showlegend=False,
         height=500,
+        font=dict(size=14, color="#111827"),
         margin=dict(l=10, r=10, t=10, b=10),
-        font=dict(size=14, color="#0f172a"),
         xaxis=dict(title="Respondents", gridcolor="#e2e8f0"),
         yaxis=dict(title="")
     )
@@ -378,11 +385,10 @@ with c2:
     fig_pie.update_traces(textinfo="percent", textfont_size=16)
 
     fig_pie.update_layout(
-        paper_bgcolor="white",
-        plot_bgcolor="white",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
         height=500,
-        margin=dict(l=10, r=10, t=10, b=10),
-        font=dict(color="#0f172a"),
+        font=dict(color="#111827"),
         legend=dict(orientation="h", y=-0.15)
     )
 
@@ -394,42 +400,33 @@ with c2:
 # ---------------------------------------------------
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-st.markdown(
-    """
-    <div class="section-header">Theme Descriptions</div>
-    <div class="section-sub">
-        Summary of the six thematic areas identified from the open-ended responses.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<div class="section-header">Theme Descriptions</div>
+<div class="section-sub">
+    Summary of the six thematic areas identified from the open-ended responses.
+</div>
+""", unsafe_allow_html=True)
 
 for _, row in data.iterrows():
-    st.markdown(
-        f"""
-        <div class="theme-card">
-            <div class="theme-title">{row['Theme']}</div>
-            <div class="theme-meta">{row['Mentions']} respondents • {row['Percentage']}%</div>
-            <div class="theme-text">{row['Description']}</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown(f"""
+    <div class="theme-card">
+        <div class="theme-title">{row['Theme']}</div>
+        <div class="theme-meta">{row['Mentions']} respondents • {row['Percentage']}%</div>
+        <div class="theme-text">{row['Description']}</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ---------------------------------------------------
 # SUMMARY TABLE
 # ---------------------------------------------------
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-st.markdown(
-    """
-    <div class="section-header">Theme Summary Table</div>
-    <div class="section-sub">
-        Summary of the number and percentage of respondents mentioning each thematic area.
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<div class="section-header">Theme Summary Table</div>
+<div class="section-sub">
+    Summary of the number and percentage of respondents mentioning each thematic area.
+</div>
+""", unsafe_allow_html=True)
 
 summary_table = data.rename(columns={
     "Theme": "Thematic Area",
