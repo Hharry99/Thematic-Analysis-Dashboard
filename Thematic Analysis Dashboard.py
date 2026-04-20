@@ -2,18 +2,18 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# ---------------------------------------------------
-# PAGE CONFIGURATION
-# ---------------------------------------------------
+# --------------------------------------------------
+# PAGE CONFIG
+# --------------------------------------------------
 st.set_page_config(
     page_title="Thematic Analysis Dashboard",
     page_icon="📊",
     layout="wide"
 )
 
-# ---------------------------------------------------
+# --------------------------------------------------
 # DATA
-# ---------------------------------------------------
+# --------------------------------------------------
 data = pd.DataFrame({
     "Theme": [
         "AI, Analytics & Forecasting",
@@ -37,97 +37,185 @@ data = pd.DataFrame({
 TOTAL_RESPONSES = 56
 data["Percentage"] = round((data["Mentions"] / TOTAL_RESPONSES) * 100, 1)
 
-# ---------------------------------------------------
-# CUSTOM CSS FOR DARK MODE
-# ---------------------------------------------------
+# --------------------------------------------------
+# SOFT, ADAPTIVE COLORS FOR BOTH LIGHT & DARK MODE
+# --------------------------------------------------
+primary = "#2563eb"
+secondary = "#475569"
+accent = "#0ea5e9"
+
+theme_colors = [
+    "#3b82f6",
+    "#8b5cf6",
+    "#ec4899",
+    "#f97316",
+    "#22c55e",
+    "#eab308"
+]
+
+# --------------------------------------------------
+# GLOBAL CSS
+# --------------------------------------------------
 st.markdown("""
 <style>
-html, body, [class*="css"] {
-    background-color: #0f172a;
-    color: #f8fafc;
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 .main-title {
-    font-size: 46px;
+    font-size: 3.2rem;
     font-weight: 800;
-    color: #60a5fa;
-    margin-bottom: 0px;
+    color: #2563eb;
+    margin-bottom: 0.25rem;
+    line-height: 1.1;
 }
 
 .sub-title {
-    font-size: 20px;
-    color: #cbd5e1;
-    margin-top: 0px;
-    margin-bottom: 25px;
+    font-size: 1.35rem;
+    color: #475569;
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+}
+
+.caption {
+    color: #64748b;
+    font-size: 1rem;
+    margin-bottom: 2rem;
 }
 
 .metric-card {
-    background: linear-gradient(135deg, #1e293b, #111827);
-    padding: 20px;
+    background: linear-gradient(135deg, rgba(37,99,235,0.10), rgba(14,165,233,0.06));
+    border: 1px solid rgba(37,99,235,0.18);
     border-radius: 18px;
-    border: 1px solid #334155;
+    padding: 1.5rem 1rem;
     text-align: center;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    height: 100%;
 }
 
 .metric-title {
-    font-size: 16px;
-    color: #94a3b8;
-    margin-bottom: 10px;
+    color: #64748b;
+    font-size: 1rem;
+    margin-bottom: 0.7rem;
+    font-weight: 600;
 }
 
 .metric-value {
-    font-size: 42px;
-    font-weight: bold;
-    color: #f8fafc;
+    color: #111827;
+    font-size: 2.8rem;
+    font-weight: 800;
 }
 
 .metric-highlight {
-    color: #38bdf8;
+    color: #0ea5e9;
 }
 
 .section-title {
-    font-size: 34px;
-    font-weight: 700;
-    color: #e2e8f0;
-    margin-top: 30px;
-    margin-bottom: 15px;
+    color: #1e293b;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.chart-card {
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(148,163,184,0.20);
+    border-radius: 18px;
+    padding: 1rem;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    backdrop-filter: blur(6px);
 }
 
 .theme-card {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
-    padding: 20px;
+    background: rgba(255,255,255,0.70);
+    border: 1px solid rgba(148,163,184,0.18);
+    border-left: 6px solid #2563eb;
     border-radius: 16px;
-    border-left: 6px solid #38bdf8;
-    border: 1px solid #334155;
-    margin-bottom: 18px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.35);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .theme-title {
-    color: #f8fafc;
-    font-size: 22px;
+    color: #111827;
+    font-size: 1.2rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 0.35rem;
 }
 
 .theme-meta {
-    color: #93c5fd;
-    font-size: 16px;
-    margin-bottom: 10px;
+    color: #2563eb;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
 }
 
 .theme-description {
-    color: #cbd5e1;
-    font-size: 15px;
-    line-height: 1.7;
+    color: #475569;
+    font-size: 0.98rem;
+    line-height: 1.6;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid rgba(148,163,184,0.25);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Better visibility in dark mode */
+@media (prefers-color-scheme: dark) {
+    .sub-title {
+        color: #cbd5e1 !important;
+    }
+
+    .caption {
+        color: #94a3b8 !important;
+    }
+
+    .metric-card {
+        background: linear-gradient(135deg, rgba(15,23,42,0.92), rgba(30,41,59,0.92));
+        border: 1px solid rgba(96,165,250,0.20);
+    }
+
+    .metric-title {
+        color: #cbd5e1 !important;
+    }
+
+    .metric-value {
+        color: #f8fafc !important;
+    }
+
+    .section-title {
+        color: #f8fafc !important;
+    }
+
+    .chart-card {
+        background: rgba(15,23,42,0.82);
+        border: 1px solid rgba(148,163,184,0.15);
+    }
+
+    .theme-card {
+        background: rgba(15,23,42,0.88);
+        border: 1px solid rgba(148,163,184,0.15);
+    }
+
+    .theme-title {
+        color: #f8fafc !important;
+    }
+
+    .theme-description {
+        color: #cbd5e1 !important;
+    }
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------
+# --------------------------------------------------
 # HEADER
-# ---------------------------------------------------
+# --------------------------------------------------
 st.markdown(
     '<div class="main-title">Thematic Analysis Dashboard</div>',
     unsafe_allow_html=True
@@ -139,24 +227,24 @@ st.markdown(
 )
 
 st.markdown(
-    '<div style="color:#e2e8f0; font-size:18px; margin-bottom:25px;">Based on 56 survey responses</div>',
+    '<div class="caption">Based on 56 survey responses</div>',
     unsafe_allow_html=True
 )
 
-# ---------------------------------------------------
+# --------------------------------------------------
 # METRICS
-# ---------------------------------------------------
-col1, col2, col3 = st.columns(3)
+# --------------------------------------------------
+m1, m2, m3 = st.columns(3)
 
-with col1:
-    st.markdown(f"""
+with m1:
+    st.markdown("""
     <div class="metric-card">
         <div class="metric-title">Total Responses</div>
         <div class="metric-value">56</div>
     </div>
     """, unsafe_allow_html=True)
 
-with col2:
+with m2:
     st.markdown(f"""
     <div class="metric-card">
         <div class="metric-title">Total Themes</div>
@@ -164,7 +252,7 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
 
-with col3:
+with m3:
     st.markdown("""
     <div class="metric-card">
         <div class="metric-title">Most Mentioned Theme</div>
@@ -172,29 +260,18 @@ with col3:
     </div>
     """, unsafe_allow_html=True)
 
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<hr>", unsafe_allow_html=True)
 
-# ---------------------------------------------------
-# COLORS
-# ---------------------------------------------------
-theme_colors = [
-    "#38bdf8",  # cyan
-    "#6366f1",  # indigo
-    "#ec4899",  # pink
-    "#f97316",  # orange
-    "#22c55e",  # green
-    "#eab308"   # yellow
-]
-
-# ---------------------------------------------------
+# --------------------------------------------------
 # CHARTS
-# ---------------------------------------------------
-chart1, chart2 = st.columns(2)
+# --------------------------------------------------
+c1, c2 = st.columns(2)
 
-with chart1:
+with c1:
     st.markdown('<div class="section-title">Theme Frequency</div>', unsafe_allow_html=True)
+    st.markdown('<div class="chart-card">', unsafe_allow_html=True)
 
-    sorted_data = data.sort_values(by="Mentions", ascending=True)
+    sorted_data = data.sort_values("Mentions")
 
     fig_bar = px.bar(
         sorted_data,
@@ -207,31 +284,27 @@ with chart1:
     )
 
     fig_bar.update_layout(
-        paper_bgcolor="#0f172a",
-        plot_bgcolor="#0f172a",
-        font=dict(color="#f8fafc", size=14),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
         showlegend=False,
-        height=520,
-        margin=dict(l=20, r=20, t=20, b=20),
+        height=480,
+        font=dict(size=13),
+        margin=dict(l=10, r=10, t=10, b=10),
         xaxis=dict(
-            title="Number of Respondents",
-            gridcolor="#334155",
-            zerolinecolor="#334155"
+            title="Respondents",
+            gridcolor="rgba(148,163,184,0.2)"
         ),
-        yaxis=dict(
-            title="",
-            tickfont=dict(size=14)
-        )
+        yaxis=dict(title="")
     )
 
-    fig_bar.update_traces(
-        textposition="outside"
-    )
+    fig_bar.update_traces(textposition="outside")
 
     st.plotly_chart(fig_bar, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
-with chart2:
+with c2:
     st.markdown('<div class="section-title">Theme Percentage Share</div>', unsafe_allow_html=True)
+    st.markdown('<div class="chart-card">', unsafe_allow_html=True)
 
     fig_pie = px.pie(
         data,
@@ -243,28 +316,30 @@ with chart2:
     )
 
     fig_pie.update_traces(
-        textinfo="percent+label",
-        textfont=dict(size=14, color="white")
+        textinfo="percent",
+        textfont_size=14
     )
 
     fig_pie.update_layout(
-        paper_bgcolor="#0f172a",
-        plot_bgcolor="#0f172a",
-        font=dict(color="#f8fafc"),
-        height=520,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        height=480,
         legend=dict(
-            font=dict(size=13),
-            bgcolor="#0f172a"
-        )
+            orientation="h",
+            y=-0.15,
+            x=0
+        ),
+        margin=dict(l=10, r=10, t=10, b=40)
     )
 
     st.plotly_chart(fig_pie, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
-st.markdown("<br><hr style='border:1px solid #334155'><br>", unsafe_allow_html=True)
+st.markdown("<hr>", unsafe_allow_html=True)
 
-# ---------------------------------------------------
+# --------------------------------------------------
 # THEME DESCRIPTIONS
-# ---------------------------------------------------
+# --------------------------------------------------
 st.markdown('<div class="section-title">Theme Descriptions</div>', unsafe_allow_html=True)
 
 for _, row in data.iterrows():
@@ -272,32 +347,26 @@ for _, row in data.iterrows():
         f"""
         <div class="theme-card">
             <div class="theme-title">{row['Theme']}</div>
-            <div class="theme-meta">
-                {row['Mentions']} respondents • {row['Percentage']}%
-            </div>
-            <div class="theme-description">
-                {row['Description']}
-            </div>
+            <div class="theme-meta">{row['Mentions']} respondents • {row['Percentage']}%</div>
+            <div class="theme-description">{row['Description']}</div>
         </div>
         """,
         unsafe_allow_html=True
     )
 
-# ---------------------------------------------------
-# DATA TABLE
-# ---------------------------------------------------
+st.markdown("<hr>", unsafe_allow_html=True)
+
+# --------------------------------------------------
+# TABLE + DOWNLOAD
+# --------------------------------------------------
 st.markdown('<div class="section-title">Theme Summary Table</div>', unsafe_allow_html=True)
 
-styled_table = data[["Theme", "Mentions", "Percentage"]]
-
 st.dataframe(
-    styled_table,
-    use_container_width=True
+    data[["Theme", "Mentions", "Percentage"]],
+    use_container_width=True,
+    hide_index=True
 )
 
-# ---------------------------------------------------
-# DOWNLOAD BUTTON
-# ---------------------------------------------------
 csv = data.to_csv(index=False).encode("utf-8")
 
 st.download_button(
