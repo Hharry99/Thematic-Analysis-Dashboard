@@ -2,18 +2,15 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# ---------------------------------------------------
-# PAGE CONFIG
-# ---------------------------------------------------
 st.set_page_config(
     page_title="Pavement Performance Management Dashboard",
     page_icon="📊",
     layout="wide"
 )
 
-# ---------------------------------------------------
+# -----------------------------
 # DATA
-# ---------------------------------------------------
+# -----------------------------
 data = pd.DataFrame({
     "Theme": [
         "AI, Analytics & Forecasting",
@@ -34,12 +31,11 @@ data = pd.DataFrame({
     ]
 })
 
-TOTAL_RESPONSES = 56
-data["Percentage"] = round((data["Mentions"] / TOTAL_RESPONSES) * 100, 1)
+data["Percentage"] = round((data["Mentions"] / 56) * 100, 1)
 
-# ---------------------------------------------------
-# CSS
-# ---------------------------------------------------
+# -----------------------------
+# CUSTOM CSS
+# -----------------------------
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -60,7 +56,7 @@ html, body, [class*="css"] {
     background: #071633;
     height: 72px;
     margin: -1rem -3rem 3rem -3rem;
-    border-bottom: 4px solid #d97706;
+    border-bottom: 4px solid #ea7b1f;
     display: flex;
     align-items: center;
     padding-left: 3rem;
@@ -75,7 +71,7 @@ html, body, [class*="css"] {
     display: inline-block;
     background: #fff7ed;
     color: #b45309;
-    border: 1px solid #fbbf24;
+    border: 1px solid #ea7b1f;
     border-radius: 999px;
     padding: 10px 22px;
     font-size: 14px;
@@ -84,7 +80,7 @@ html, body, [class*="css"] {
     margin-bottom: 2rem;
 }
 
-/* MAIN TITLE - force visible in light mode */
+/* Main Title */
 .main-title {
     text-align: center;
     font-size: 50px;
@@ -94,24 +90,33 @@ html, body, [class*="css"] {
     margin-bottom: 0.8rem;
 }
 
-/* Subtitle */
+/* Orange Subtitle */
 .subtitle {
     text-align: center;
     font-size: 22px;
     font-weight: 700;
-    color: #c2410c !important;
+    color: #ea7b1f !important;
     margin-bottom: 0.3rem;
 }
 
 .subtitle-line {
     width: 320px;
-    height: 3px;
-    background: #fdba74;
+    height: 4px;
+    background: #ea7b1f !important;
     margin: 0 auto 2.5rem auto;
     border-radius: 20px;
 }
 
-/* Section Headings */
+/* Intro Card */
+.info-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+    margin-bottom: 2rem;
+}
+
 .section-header {
     font-size: 34px;
     font-weight: 800;
@@ -126,17 +131,7 @@ html, body, [class*="css"] {
     margin-bottom: 1rem;
 }
 
-/* Intro Card */
-.info-card {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 24px;
-    padding: 2rem;
-    box-shadow: 0 10px 30px rgba(15,23,42,0.06);
-    margin-bottom: 2rem;
-}
-
-/* Metrics */
+/* Metric Cards */
 .metric-card {
     background: linear-gradient(135deg, #0f172a, #1e293b);
     border-radius: 22px;
@@ -191,7 +186,7 @@ html, body, [class*="css"] {
     background: white;
     border-radius: 20px;
     padding: 1.5rem;
-    border-left: 8px solid #ea580c;
+    border-left: 8px solid #ea7b1f;
     box-shadow: 0 10px 24px rgba(15,23,42,0.06);
     border: 1px solid #e2e8f0;
     margin-bottom: 1rem;
@@ -205,7 +200,7 @@ html, body, [class*="css"] {
 }
 
 .theme-meta {
-    color: #c2410c !important;
+    color: #ea7b1f !important;
     font-size: 15px;
     font-weight: 700;
     margin-bottom: 0.6rem;
@@ -217,22 +212,6 @@ html, body, [class*="css"] {
     line-height: 1.7;
 }
 
-/* Force visibility in light mode */
-@media (prefers-color-scheme: light) {
-    .main-title,
-    .section-header,
-    .chart-title,
-    .theme-title {
-        color: #0f172a !important;
-    }
-
-    .section-sub,
-    .chart-subtitle,
-    .theme-text {
-        color: #334155 !important;
-    }
-}
-
 /* Dark Mode */
 @media (prefers-color-scheme: dark) {
     .main-title,
@@ -242,8 +221,9 @@ html, body, [class*="css"] {
         color: #f8fafc !important;
     }
 
-    .subtitle {
-        color: #fb923c !important;
+    .subtitle,
+    .theme-meta {
+        color: #ea7b1f !important;
     }
 
     .section-sub,
@@ -262,9 +242,9 @@ html, body, [class*="css"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------
+# -----------------------------
 # HEADER
-# ---------------------------------------------------
+# -----------------------------
 st.markdown('<div class="top-bar">SURVEY</div>', unsafe_allow_html=True)
 
 st.markdown(
@@ -287,9 +267,9 @@ st.markdown(
 
 st.markdown('<div class="subtitle-line"></div>', unsafe_allow_html=True)
 
-# ---------------------------------------------------
-# INTRO CARD
-# ---------------------------------------------------
+# -----------------------------
+# INTRO
+# -----------------------------
 st.markdown("""
 <div class="info-card">
     <div class="section-header">Thematic Analysis of Open-Ended Responses</div>
@@ -299,9 +279,9 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------
+# -----------------------------
 # METRICS
-# ---------------------------------------------------
+# -----------------------------
 m1, m2, m3 = st.columns(3)
 
 with m1:
@@ -328,10 +308,10 @@ with m3:
     </div>
     """, unsafe_allow_html=True)
 
-# ---------------------------------------------------
+# -----------------------------
 # CHARTS
-# ---------------------------------------------------
-colors = ["#2563eb", "#7c3aed", "#ec4899", "#ea580c", "#16a34a", "#d97706"]
+# -----------------------------
+colors = ["#2563eb", "#7c3aed", "#ec4899", "#ea7b1f", "#16a34a", "#d97706"]
 
 c1, c2 = st.columns(2)
 
@@ -396,9 +376,9 @@ with c2:
     st.plotly_chart(fig_pie, use_container_width=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-# ---------------------------------------------------
+# -----------------------------
 # THEME DESCRIPTIONS
-# ---------------------------------------------------
+# -----------------------------
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown("""
@@ -417,9 +397,9 @@ for _, row in data.iterrows():
     </div>
     """, unsafe_allow_html=True)
 
-# ---------------------------------------------------
+# -----------------------------
 # SUMMARY TABLE
-# ---------------------------------------------------
+# -----------------------------
 st.markdown("<br><br>", unsafe_allow_html=True)
 
 st.markdown("""
