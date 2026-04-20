@@ -55,7 +55,7 @@ html, body, [class*="css"] {
     padding-bottom: 3rem;
 }
 
-/* Top navigation bar */
+/* Top Bar */
 .top-bar {
     background: #071633;
     height: 72px;
@@ -84,13 +84,13 @@ html, body, [class*="css"] {
     margin-bottom: 2rem;
 }
 
-/* Main title */
+/* Main Title */
 .main-title {
     text-align: center;
     font-size: 48px;
     font-weight: 900;
     line-height: 1.1;
-    color: #0f172a;
+    color: #111827 !important;
     margin-bottom: 0.8rem;
 }
 
@@ -98,7 +98,7 @@ html, body, [class*="css"] {
     text-align: center;
     font-size: 22px;
     font-weight: 700;
-    color: #c2410c;
+    color: #c2410c !important;
     margin-bottom: 0.3rem;
 }
 
@@ -110,7 +110,7 @@ html, body, [class*="css"] {
     border-radius: 20px;
 }
 
-/* Intro card */
+/* Intro Card */
 .info-card {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
@@ -123,17 +123,17 @@ html, body, [class*="css"] {
 .section-header {
     font-size: 34px;
     font-weight: 800;
-    color: #0f172a;
+    color: #0f172a !important;
     margin-bottom: 0.5rem;
 }
 
 .section-sub {
     font-size: 18px;
-    color: #64748b;
+    color: #475569 !important;
     line-height: 1.7;
 }
 
-/* Metrics */
+/* Metric Cards */
 .metric-card {
     background: linear-gradient(135deg, #0f172a, #1e293b);
     border-radius: 22px;
@@ -160,7 +160,7 @@ html, body, [class*="css"] {
     color: #38bdf8;
 }
 
-/* Charts */
+/* Chart Containers */
 .chart-box {
     background: white;
     border-radius: 24px;
@@ -173,17 +173,17 @@ html, body, [class*="css"] {
 .chart-title {
     font-size: 30px;
     font-weight: 800;
-    color: #0f172a;
+    color: #0f172a !important;
     margin-bottom: 0.3rem;
 }
 
 .chart-subtitle {
-    color: #64748b;
+    color: #64748b !important;
     font-size: 16px;
     margin-bottom: 1.2rem;
 }
 
-/* Theme cards */
+/* Theme Cards */
 .theme-card {
     background: white;
     border-radius: 20px;
@@ -195,26 +195,26 @@ html, body, [class*="css"] {
 }
 
 .theme-title {
-    color: #0f172a;
+    color: #0f172a !important;
     font-size: 22px;
     font-weight: 800;
     margin-bottom: 0.4rem;
 }
 
 .theme-meta {
-    color: #c2410c;
+    color: #c2410c !important;
     font-size: 15px;
     font-weight: 700;
     margin-bottom: 0.6rem;
 }
 
 .theme-text {
-    color: #475569;
+    color: #475569 !important;
     font-size: 16px;
     line-height: 1.7;
 }
 
-/* Dark mode support */
+/* Dark Mode */
 @media (prefers-color-scheme: dark) {
     .main-title {
         color: #f8fafc !important;
@@ -252,11 +252,7 @@ html, body, [class*="css"] {
 st.markdown('<div class="top-bar">SURVEY</div>', unsafe_allow_html=True)
 
 st.markdown(
-    """
-    <div style="text-align:center;">
-        <div class="badge">📋 DOCTORAL RESEARCH</div>
-    </div>
-    """,
+    '<div style="text-align:center;"><div class="badge">📋 DOCTORAL RESEARCH</div></div>',
     unsafe_allow_html=True
 )
 
@@ -279,7 +275,7 @@ st.markdown(
 st.markdown('<div class="subtitle-line"></div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------
-# INTRO
+# INTRO CARD
 # ---------------------------------------------------
 st.markdown(
     """
@@ -307,10 +303,10 @@ with m1:
     """, unsafe_allow_html=True)
 
 with m2:
-    st.markdown(f"""
+    st.markdown("""
     <div class="metric-card">
         <div class="metric-title">Total Themes</div>
-        <div class="metric-value">{len(data)}</div>
+        <div class="metric-value">6</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -355,10 +351,7 @@ with c1:
         height=500,
         margin=dict(l=10, r=10, t=10, b=10),
         font=dict(size=14, color="#0f172a"),
-        xaxis=dict(
-            title="Respondents",
-            gridcolor="#e2e8f0"
-        ),
+        xaxis=dict(title="Respondents", gridcolor="#e2e8f0"),
         yaxis=dict(title="")
     )
 
@@ -390,10 +383,7 @@ with c2:
         height=500,
         margin=dict(l=10, r=10, t=10, b=10),
         font=dict(color="#0f172a"),
-        legend=dict(
-            orientation="h",
-            y=-0.15
-        )
+        legend=dict(orientation="h", y=-0.15)
     )
 
     st.plotly_chart(fig_pie, use_container_width=True)
@@ -451,16 +441,4 @@ st.dataframe(
     summary_table[["Thematic Area", "Respondents", "Percentage (%)"]],
     use_container_width=True,
     hide_index=True
-)
-
-# ---------------------------------------------------
-# DOWNLOAD
-# ---------------------------------------------------
-csv = summary_table.to_csv(index=False).encode("utf-8")
-
-st.download_button(
-    label="📥 Download Theme Summary CSV",
-    data=csv,
-    file_name="thematic_analysis_summary.csv",
-    mime="text/csv"
 )
