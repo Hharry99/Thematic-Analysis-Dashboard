@@ -1,14 +1,4 @@
 import streamlit as st
-        data.sort_values("Mentions"),
-        x="Mentions",
-        y="Theme",
-        orientation="h",
-        text="Mentions",
-        color="Theme"
-    )
-
-    fig_bar.update_layout(
-        showlegend=False,
         height=500,
         xaxis_title="Number of Respondents",
         yaxis_title=""
